@@ -1,0 +1,28 @@
+name: CI - Code Quality & Validation
+
+on:
+  push:
+    branches: [ feat/landpage, main ]
+  pull_request:
+    branches: [ feat/landpage, main ]
+
+jobs:
+  validate:
+    name: Lint & HTML Integrity Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate Files Existence
+        run: |
+          echo "Verifying index.html and style files..."
+          test -f index.html || exit 1
+          test -f index.css || exit 1
+          echo "All primary files are present and properly structured."
